@@ -1,45 +1,35 @@
-IDIR =./include
+#  Copyright (c) 2023 Zachary Todd Edwards
+#  MIT License
+
 CC = gcc
-#Flags for C compiler
-CFLAGS = -g -Wall -pedantic -Werror
+LD = gcc
+CFLAGS = -Wall -I$(HEDDIR) -fPIC -fcx-limited-range
+LFLAGS = -shared -Wl,-soname,$(EXEC) $(CFLAGS)
 
-ODIR = ./obj
-LDIR = ./lib
+HEDDIR = .
+SRCDIR = .
+OBJDIR = ./obj
 
-#Name of final executable
-EXEC = dft
+EXEC = libdft.so
 
-#Libs to link to, use -l[libray name] seperate entries with spaces
-LIBS = -lm
+LIBS = -lm -lc
 
-#Headers in project, space seperated
-_DEPS = 
-DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
+_DEPS = dft.h
+DEPS = $(patsubst %,$(HEDDIR)/%,$(_DEPS))
 
-#Name of source files needed, but with .o at the end, space seperated
-_OBJ = dft.o main.o 
-OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
+_OBJ = dft.o
+OBJ = $(patsubst %,$(OBJDIR)/%,$(_OBJ))
 
-#Rule for making .o files from .c files
-$(ODIR)/%.o: %.c $(DEPS) $(ODIR)
+$(EXEC): $(OBJ)
+	$(LD) -o $@ $(OBJ) $(LIBS) $(LFLAGS)
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.c $(DEPS) | $(OBJDIR)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-#Final program target
-$(EXEC): $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
-
-#Make sure obj directory exitsts, '$@' represents everything before the :
-#in the target
-$(ODIR):
+$(OBJDIR):
 	mkdir -p $@
 
-#Prevents 'make clean' from messing with a file named clean if it exists
 .PHONY: clean
 
-#Removes object and temp files
 clean:
-	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~
-
-#runs the program in question, and depends on it being up to date
-run: $(EXEC)
-	./$(EXEC)
+	rm -f $(OBJDIR)/*.o core $(EXEC)

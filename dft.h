@@ -3,11 +3,7 @@
 
 #include <complex.h>
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
-
-double complex* dft(double complex *x, double complex *X, int N);
-void print_complex_set(double complex *x, int N);
+void fourier_transform(double complex *X, long N);
+void dft(double complex* x, double complex* X, long N);
 
 #endif

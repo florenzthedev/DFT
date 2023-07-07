@@ -1,22 +1,22 @@
 #include "dft.h"
-#include <stdio.h>
+
 #include <stdlib.h>
+#include <string.h>
 
-double complex* dft(double complex *x, double complex *X, int N){
-  for(int i = 0; i < N; i++)
-    X[i] = CMPLX(0.0, 0.0);
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
-  for(int k = 0; k < N; k++)
-    for(int n = 0; n < N; n++)
-      X[k] += x[n] * cexp(-(((I * 2 * M_PI) / N) * k * n));
-
-  return X;
+void fourier_transform(double complex* X, long N) {
+  double complex* x = malloc(sizeof(double complex) * N);
+  memcpy(x, X, sizeof(double complex) * N);
+  memset(X, 0, sizeof(double complex) * N);
+  dft(x, X, N);
+  free(x);
 }
 
-void print_complex_set(double complex *x, int N){
-  printf("{");
-  printf("%.1f%+.1fi", creal(x[0]), cimag(x[0]));
-  for(int i = 1; i < N; i++)
-    printf(", %.1f%+.1fi", creal(x[i]), cimag(x[i]));
-  printf("}\n");
+void dft(double complex* x, double complex* X, long N) {
+  for (int k = 0; k < N; k++)
+    for (int n = 0; n < N; n++)
+      X[k] += x[n] * cexp(-(((I * 2 * M_PI) / N) * k * n));
 }
