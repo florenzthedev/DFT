@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Zachary Todd Edwards
+// MIT License
+
 #ifndef DFT_H_INCLUDED
 #define DFT_H_INCLUDED
 

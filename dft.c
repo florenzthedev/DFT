@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Zachary Todd Edwards
+// MIT License
+
 #include "dft.h"
 
 #include <assert.h>
