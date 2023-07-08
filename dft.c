@@ -1,5 +1,6 @@
 #include "dft.h"
 
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -7,12 +8,15 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-void fourier_transform(double complex* X, long N) {
+int fourier_transform(double complex* X, long N) {
+  assert(X != NULL);
   double complex* x = malloc(sizeof(double complex) * N);
+  if(x == NULL) return -1;
   memcpy(x, X, sizeof(double complex) * N);
   memset(X, 0, sizeof(double complex) * N);
   dft(x, X, N);
   free(x);
+  return 0;
 }
 
 void dft(double complex* x, double complex* X, long N) {
