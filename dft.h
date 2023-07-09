@@ -13,10 +13,11 @@
  *
  * @param X Input dataset, will be overwritten by results.
  * @param N Size of input dataset.
+ * @param aux Auxillary information, unused in this implementation.
  *
  * @return  0 on success, -1 on failure (usually malloc failed).
  */
-int fourier_transform(double complex* X, long N);
+int fourier_transform(double complex* X, long N, int aux);
 
 /**
  * @brief The Discrete Fourier Transform. Used for frequency analysis on

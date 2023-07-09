@@ -11,7 +11,7 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-int fourier_transform(double complex* X, long N) {
+int fourier_transform(double complex* X, long N, int aux) {
   assert(X != NULL);
   double complex* x = malloc(sizeof(double complex) * N);
   if(x == NULL) return -1;
